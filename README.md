@@ -32,10 +32,17 @@ After adding the files to the compilation, the CmdParser can be used in the foll
 int main(int argc, char** argv)
 {
   auto parser = cbica::CmdParser(argc, argv);
-  parser.addRequiredParameter("i", "images", cbica::Parameter::FILE, "NIfTI or DICOM", "Input coregistered image(s) to load into application", "Multiple images are delineated using ','");
-  parser.addOptionalParameter("m", "mask", cbica::Parameter::FILE, "NIfTI or DICOM", "Input mask [coregistered with image(s)] to load into application", "Accepts only one file");
+  parser.addRequiredParameter("i", "images", cbica::Parameter::FILE, "NIfTI or DICOM", "Input coregistered image to load into application");
+  parser.addOptionalParameter("m", "mask", cbica::Parameter::FILE, "NIfTI or DICOM", "Input mask [coregistered with image] to load into application");
   parser.exampleUsage("-i C:/data/input1.nii.gz,C:/data/input2.nii.gz -m C:/data/inputMask.nii.gz");
   parser.writeCWLFile("C:/algoDef/"); // always written as ${exeName}.cwl
+  
+  std::string file_inputImage, file_inputMask
+  
+  parser.getParameterValue("i", file_inputImage);
+  parser.getParameterValue("m", file_inputMask);
+  
+  // getParameterValue supports std::string, float, int, size_t and bool types
   
   // do fancy processing
   
