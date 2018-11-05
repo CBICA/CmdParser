@@ -6,9 +6,26 @@ Credits to YAML-CPP (https://github.com/jbeder/yaml-cpp/)
 
 ## Usage
 
-After adding the files to the compilation, the CmdParser can be used in the following way:
+In the main <b>CMakeLists.txt</b> file, add the following lines:
 
-```cpp/
+```cpp
+# for YAML-CPP
+INCLUDE_DIRECTORIES( ${PROJECT_SOURCE_DIR}/thirdparty/yaml-cpp/include )
+FILE(GLOB_RECURSE YAMLCPP_Headers "${PROJECT_SOURCE_DIR}/thirdparty/yaml-cpp/include/*.h")
+FILE(GLOB_RECURSE YAMLCPP_Sources "${PROJECT_SOURCE_DIR}/thirdparty/yaml-cpp/src/*.cpp")
+SET( CMDPARSER_HEADERS ${YAMLCPP_Headers} CACHE STRING "YAML-CPP headers" FORCE )
+SET( CMDPARSER_SOURCES ${YAMLCPP_Sources} CACHE STRING "YAML-CPP sources" FORCE )
+
+# for CmdParser
+INCLUDE_DIRECTORIES( ${PROJECT_SOURCE_DIR}/include )
+SET( CMDPARSER_HEADERS ${CMDPARSER_HEADERS} "${PROJECT_SOURCE_DIR}/include/cbicaCmdParser.h" )
+SET( CMDPARSER_SOURCES ${CMDPARSER_HEADERS} "${PROJECT_SOURCE_DIR}/include/cbicaCmdParser.cpp" )
+
+## add ${CMDPARSER_HEADERS} and ${CMDPARSER_SOURCES} to project compilation
+```
+After adding the files to the compilation, the CmdParser can be used in the following way in the source code:
+
+```cpp
 #include "cbicaCmdParser.h"
 
 int main(int argc, char** argv)
