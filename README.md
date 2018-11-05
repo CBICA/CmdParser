@@ -23,6 +23,7 @@ SET( CMDPARSER_SOURCES ${CMDPARSER_HEADERS} "${PROJECT_SOURCE_DIR}/include/cbica
 
 ## add ${CMDPARSER_HEADERS} and ${CMDPARSER_SOURCES} to project compilation
 ```
+
 After adding the files to the compilation, the CmdParser can be used in the following way in the source code:
 
 ```cpp
