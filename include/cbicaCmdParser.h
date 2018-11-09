@@ -423,10 +423,10 @@ namespace cbica
 	  This should be invoked everytime the cmd parser is called for an application.
 
 	  \param dirName Full directory path to where the CWL spec will be produced
-	  \workflowName For more advanced CWL workflows
-	
+	  \param workflowName For more advanced CWL workflows
+    \param overwriteFile If the current file should be overwritten or not
 	  */
-	  void writeCWLFile(const std::string & dirName, const std::string &workflowName);
+	  void writeCWLFile(const std::string & dirName, const std::string &workflowName, bool overwriteFile);
 
 	  /*
 	  \brief Gets the command line string with all the parameters from input yml file
