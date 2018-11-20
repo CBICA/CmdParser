@@ -579,14 +579,21 @@ namespace cbica
         spaces_lac.append(" ");
       }
 
-      /*for (size_t n = 0; n < m_maxLength - inputParameters[i].verbose.length() - spaces_lac.length() - 3; n++)
+      for (size_t n = 0; n < m_maxLength - inputParameters[i].verbose.length() - spaces_lac.length() - 2; n++)
       {
+        spaces_verb.append(" ");
+      }
 
-      spaces_verb.append(" ");
-      }*/
+      if (spaces_lac.empty() && !spaces_verb.empty())
+      {
+        for (size_t n = 0; n <= m_maxLaconicLength - inputParameters[i].laconic.length(); n++)
+        {
+          spaces_verb.pop_back();
+        }
+      }
 
       std::cout << "[" << spaces_lac << "-" << inputParameters[i].laconic << ", --" <<
-        inputParameters[i].verbose << spaces_verb << "]  " <<
+        inputParameters[i].verbose << "]" << spaces_verb <<
         inputParameters[i].descriptionLine1 << "\n";
 
       if (inputParameters[i].descriptionLine2 != "")
