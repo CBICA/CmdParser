@@ -435,16 +435,6 @@ namespace cbica
         m_argv.push_back(std::string(argv[i]));
       }
     }
-
-    initializeClass(argc, m_argv, exe_name);
-  }
-
-  CmdParser::CmdParser(int argc, const char **argv, const std::string &exe_name)
-  {
-    for (int i = 0; i < argc; i++)
-    {
-      m_argv.push_back(std::string(argv[i]));
-    }
     initializeClass(argc, m_argv, exe_name);
   }
 
@@ -1202,9 +1192,9 @@ namespace cbica
 
     std::string cwlfileName = dirName_wrap + m_exeName + ".cwl";
 
-    std::cout << "[DEBUG]dirName_wrap: " << dirName_wrap << std::endl;
-    std::cout << "[DEBUG]m_exeName: " << m_exeName << std::endl;
-    std::cout << "[DEBUG]cwlfileName: " << cwlfileName << std::endl;
+    // std::cout << "[DEBUG]dirName_wrap: " << dirName_wrap << std::endl;
+    // std::cout << "[DEBUG]m_exeName: " << m_exeName << std::endl;
+    // std::cout << "[DEBUG]cwlfileName: " << cwlfileName << std::endl;
     
     std::ofstream file;
     if (!cbica::fileExists(cwlfileName) || overwriteFile)
