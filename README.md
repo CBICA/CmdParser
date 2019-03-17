@@ -1,8 +1,10 @@
 # CmdParser
 
-An easy to use Command Line Parser and Common Workflow Language (CWL) specification creater/reader
+An easy to use Command Line Parser and Common Workflow Language (CWL) specification creater/reader.
 
-Credits to YAML-CPP (https://github.com/jbeder/yaml-cpp/)
+Credits to YAML-CPP (https://github.com/jbeder/yaml-cpp/).
+
+Main development happens in https://github.com/CBICA/CaPTk from where we regularly do merges.
 
 ## Usage
 
