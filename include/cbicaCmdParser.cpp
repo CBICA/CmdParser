@@ -3,7 +3,7 @@
 
 \brief Implementation file for CmdParser class.
 
-http://www.med.upenn.edu/sbia/software/ <br>
+https://www.med.upenn.edu/sbia/software/ <br>
 software@cbica.upenn.edu
 
 Copyright (c) 2018 University of Pennsylvania. All rights reserved. <br>
@@ -596,7 +596,10 @@ namespace cbica
       exit(EXIT_FAILURE);
     }
 
-    m_optionalParameters.push_back(Parameter(laconic, verbose, expectedDataType, dataRange, description_line1, description_line2, description_line3, description_line4, description_line5));
+    std::string verbose_wrap = verbose;
+    stringReplace(verbose_wrap, " ", "");
+
+    m_optionalParameters.push_back(Parameter(laconic, verbose_wrap, expectedDataType, dataRange, description_line1, description_line2, description_line3, description_line4, description_line5));
   }
 
   void CmdParser::addRequiredParameter(const std::string &laconic, const std::string &verbose, const int &expectedDataType, const std::string &dataRange,
@@ -627,7 +630,10 @@ namespace cbica
       exit(EXIT_FAILURE);
     }
 
-    m_requiredParameters.push_back(Parameter(laconic, verbose, expectedDataType, dataRange, description_line1, description_line2, description_line3, description_line4, description_line5));
+    std::string verbose_wrap = verbose;
+    stringReplace(verbose_wrap, " ", "");
+
+    m_requiredParameters.push_back(Parameter(laconic, verbose_wrap, expectedDataType, dataRange, description_line1, description_line2, description_line3, description_line4, description_line5));
   }
 
   void CmdParser::addParameter(const std::string &laconic, const std::string &verbose, const int &expectedDataType, const std::string &dataRange,
@@ -760,7 +766,7 @@ namespace cbica
 
       for (size_t i = 0; i < m_exampleUsageAndDescription.size(); i++)
       {
-        std::cout << " Command: " << m_exeName_wrap << " " << m_exampleUsageAndDescription[i].first << "\n\n";
+        std::cout << " Command: " << m_exeName_wrap << " " << m_exampleUsageAndDescription[i].first << "\n";
         std::cout << " Result : " << m_exampleUsageAndDescription[i].second << "\n\n";
       }
       std::cout << "\n";
@@ -926,9 +932,9 @@ namespace cbica
         helpRequested = true;
         position = i;
         //std::cout << "[DEBUG] m_exePath: "<< m_exePath << "\n";
-        writeCWLFile(m_exePath, false);
+        writeCWLFile(m_exePath, true);
         exit(EXIT_SUCCESS);
-        //return true;
+        return true;
       }
       if (!checkMaxLen)
       {
@@ -1282,9 +1288,9 @@ namespace cbica
 
     std::string cwlfileName = dirName_wrap + m_exeName + ".cwl";
 
-    //std::cout << "[DEBUG]dirName_wrap: " << dirName_wrap << std::endl;
-    //std::cout << "[DEBUG]m_exeName: " << m_exeName << std::endl;
-    //std::cout << "[DEBUG]cwlfileName: " << cwlfileName << std::endl;
+    // std::cout << "[DEBUG]dirName_wrap: " << dirName_wrap << std::endl;
+    // std::cout << "[DEBUG]m_exeName: " << m_exeName << std::endl;
+    // std::cout << "[DEBUG]cwlfileName: " << cwlfileName << std::endl;
     
     std::ofstream file;
     if (!cbica::fileExists(cwlfileName) || overwriteFile)
@@ -1295,11 +1301,14 @@ namespace cbica
 
       config["cwlVersion"] = "v1.0";
       config["class"] = "CommandLineTool";
-      config["version"] = m_version;
+      //config["version"] = m_version;
       config["baseCommand"] = (m_exeName);
       
       YAML::Node inputs = config["inputs"];
-      
+
+      YAML::Node hints = config["hints"];
+      config["hints"]["SoftwareRequirement"]["packages"][m_exeName]["version"][0] = m_version;
+
       for (size_t i = 0; i < m_requiredParameters.size(); i++)
       {
         config["inputs"]["-" + m_requiredParameters[i].verbose];
@@ -1325,7 +1334,8 @@ namespace cbica
           (m_requiredParameters[i].descriptionLine5 == "" ? "" : (m_requiredParameters[i].descriptionLine5 + "."));
       }
 
-      if (m_optionalParameters.size() > 0) {
+      if (m_optionalParameters.size() > 0) 
+      {
         for (size_t i = 0; i < m_optionalParameters.size(); i++)
         {
           if (m_optionalParameters[i].verbose == "help" ||
@@ -1334,7 +1344,8 @@ namespace cbica
             m_optionalParameters[i].verbose == "LogFile") {
             continue;
           }
-          else {
+          else 
+          {
             config["inputs"]["-" + m_optionalParameters[i].verbose];
             config["inputs"][m_optionalParameters[i].verbose]["type"] =
               (m_optionalParameters[i].dataType_string == "STRING") ? "string?" :
@@ -1514,24 +1525,22 @@ namespace cbica
       {
         type = cbica::Parameter::BOOLEAN;
       }
-      else {
+      else 
+      {
         type = cbica::Parameter::NONE;
       }
-
-
+      
       if (optional)
+      {
         addOptionalParameter(laconic, verbose, type, dataRange, desc1);
-      else {
-        //std::cout << laconic << verbose << type << dataRange << desc1 << std::endl;
+      }
+      else 
+      {
         addRequiredParameter(laconic, verbose, type, dataRange, desc1);
       }
 
       con++;
     }
-    exampleUsage("-d C:/here/is/my/Data/ -i fixed,moving -o output");
-
-    std::ofstream fout("d:\\Hellow.cwl");
-    fout << config;
   }
 
   void CmdParser::createNode(const std::string & nodeString)
