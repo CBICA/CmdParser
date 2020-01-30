@@ -8,22 +8,15 @@ Main development happens in https://github.com/CBICA/CaPTk from where we regular
 
 ## Usage
 
-In the main <b>CMakeLists.txt</b> file, add the following lines:
+Add this repo as a submodule and invoke it from the main <b>CMakeLists.txt</b> file:
 
-```cpp
-# for YAML-CPP
-INCLUDE_DIRECTORIES( ${PROJECT_SOURCE_DIR}/thirdparty/yaml-cpp/include )
-FILE(GLOB_RECURSE YAMLCPP_Headers "${PROJECT_SOURCE_DIR}/thirdparty/yaml-cpp/include/*.h")
-FILE(GLOB_RECURSE YAMLCPP_Sources "${PROJECT_SOURCE_DIR}/thirdparty/yaml-cpp/src/*.cpp")
-SET( CMDPARSER_HEADERS ${YAMLCPP_Headers} CACHE STRING "YAML-CPP headers" FORCE )
-SET( CMDPARSER_SOURCES ${YAMLCPP_Sources} CACHE STRING "YAML-CPP sources" FORCE )
+```bash
+ADD_SUBDIRECTORY(CmdParser) # that's all you would need to do to build the CmdParser library
 
-# for CmdParser
-INCLUDE_DIRECTORIES( ${PROJECT_SOURCE_DIR}/include )
-SET( CMDPARSER_HEADERS ${CMDPARSER_HEADERS} "${PROJECT_SOURCE_DIR}/include/cbicaCmdParser.h" )
-SET( CMDPARSER_SOURCES ${CMDPARSER_HEADERS} "${PROJECT_SOURCE_DIR}/include/cbicaCmdParser.cpp" )
-
-## add ${CMDPARSER_HEADERS} and ${CMDPARSER_SOURCES} to project compilation
+TARGET_LINK_LIBRARIES( 
+  ${EXECUTABLE_YOU_WANT_TO_INFUSE_WITH_FUNCTIONALITY}
+  CmdParser
+)
 ```
 
 After adding the files to the compilation, the CmdParser can be used in the following way in the source code:
