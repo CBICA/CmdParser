@@ -22,7 +22,7 @@ TARGET_LINK_LIBRARIES(
 After adding the files to the compilation, the CmdParser can be used in the following way in the source code:
 
 ```cpp
-#include "cbicaCmdParser.h"
+#include "CmdParser/include/cbicaCmdParser.h" // to shorten path, add 'CmdParser/include' as include_directory in project CMakeLists file
 
 int main(int argc, char** argv)
 {
