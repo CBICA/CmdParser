@@ -3,13 +3,19 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.10)
 PROJECT( CmdParser VERSION 1.0.0 )
 
 # for YAML-CPP
-INCLUDE_DIRECTORIES( ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/yaml-cpp/include )
-FILE(GLOB_RECURSE YAMLCPP_Headers "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/yaml-cpp/include/*.h")
-FILE(GLOB_RECURSE YAMLCPP_Sources "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/yaml-cpp/src/*.cpp")
+INCLUDE_DIRECTORIES( ${PROJECT_SOURCE_DIR}/thirdparty/yaml-cpp/include )
+FILE(GLOB_RECURSE YAMLCPP_Headers "${PROJECT_SOURCE_DIR}/thirdparty/yaml-cpp/include/*.h")
+FILE(GLOB_RECURSE YAMLCPP_Sources "${PROJECT_SOURCE_DIR}/thirdparty/yaml-cpp/src/*.cpp")
 
 # for CmdParser
 INCLUDE_DIRECTORIES( ${PROJECT_SOURCE_DIR}/include )
 SET( CMDPARSER_HEADERS ${YAMLCPP_Headers} "${PROJECT_SOURCE_DIR}/include/cbicaCmdParser.h" )
 SET( CMDPARSER_SOURCES ${YAMLCPP_Sources} "${PROJECT_SOURCE_DIR}/include/cbicaCmdParser.cpp" )
+
+SET( CACHED_INCLUDE_DIRS
+  ${CACHED_INCLUDE_DIRS}
+  ${PROJECT_SOURCE_DIR}/include
+  ${PROJECT_SOURCE_DIR}/thirdparty/yaml-cpp/include
+)
 
 ADD_LIBRARY( ${PROJECT_NAME} ${CMDPARSER_HEADERS} ${CMDPARSER_SOURCES} )
