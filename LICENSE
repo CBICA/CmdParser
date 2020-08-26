@@ -1,6 +1,6 @@
 Software from CBICA will use one of the following licenses:
 
-1. SBIA Software License (it is a BSD-style license) - https://www.med.upenn.edu/sbia/software-agreement.html
+1. SBIA Software License (it is a BSD-style license) - https://www.med.upenn.edu/sbia/software/-agreement.html
 2. "yaml-cpp" is distributed under the MIT License. See https://github.com/jbeder/yaml-cpp/blob/master/LICENSE for details.
 
 They may depend on other libraries and toolkits (which will be clearnly shown in the respective package) that are governed by their own licenses.
